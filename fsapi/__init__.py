@@ -239,6 +239,42 @@ class FSAPI(object):
 
     mode = property(get_mode, set_mode)
 
+    # States
+    # Disables/Enables navigation state, will automatically get disabled after changing mode (reset)
+
+    def get_state(self):
+        return bool(self.handle_int('netRemote.nav.state'))
+
+    def set_state(self, value=True):
+        return self.handle_set('netRemote.nav.state', int(value))
+
+    state = property(get_state, set_state)
+
+    # Presets
+    @property
+    def presets(self):
+        return self.handle_list('netRemote.nav.presets')
+
+    # GET preset call does not exist but play.info.name can be matched with the names in the presets list
+    def get_preset(self):
+        preset = None
+        int_preset = self.handle_long('netRemote.play.info.name')
+        for temp_preset in self.presets:
+            if temp_preset['band'] == int_preset:
+                preset = temp_preset['label']
+
+        return str(preset)
+
+    def set_preset(self, value):
+        preset = -1
+        for preset in self.presets:
+            if temp_preset['label'] == value:
+                mode = temp_mode['band']
+
+        self.handle_set('netRemote.nav.action.selectPreset', preset)
+
+    preset = property(get_preset, set_preset)
+
     def get_position(self):
         return self.handle_long('netRemote.play.position')
 
