@@ -257,15 +257,15 @@ class FSAPI(object):
 
     # GET preset call does not exist but play.info.name can be matched with the names in the presets list
     def get_preset(self):
-        return self.play_info_name()
+        return self.handle_text('netRemote.play.info.name')
 
     def set_preset(self, value):
         preset = -1
-        for preset in self.presets:
-            if temp_preset['label'] == value:
-                preset = temp_mode['band']
+        for temp_preset in self.presets:
+            if temp_preset['name'] == value:
+                preset = temp_preset['band']
 
-        self.handle_set('netRemote.nav.action.selectPreset', preset)
+        return self.handle_set('netRemote.nav.action.selectPreset', preset)
 
     preset = property(get_preset, set_preset)
 
