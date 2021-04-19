@@ -280,3 +280,28 @@ class FSAPI(object):
     @property
     def duration(self):
         return self.handle_long('netRemote.play.info.duration')
+
+    # Equalizer Presets
+    @property
+    def eq_presets(self):
+        return self.handle_list('netRemote.sys.caps.eqPresets')
+
+    def get_eq_preset(self):
+        eq = None
+        int_eq = self.handle_int('netRemote.sys.audio.eqPreset')
+        for temp_eq in self.eq_presets:
+            if temp_eq['band'] == int_eq:
+                eq = temp_eq['label']
+
+        return str(eq)
+
+    def set_eq_preset(self, value):
+        eq_preset = -1
+        for temp_eq_preset in self.eq_presets:
+            if temp_eq_preset['label'] == value:
+                eq_preset = temp_eq_preset['band']
+
+        return self.handle_set('netRemote.sys.audio.eqPreset', eq_preset)
+
+    eq_preset = property(get_eq_preset, set_eq_preset)
+
