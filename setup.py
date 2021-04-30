@@ -28,13 +28,13 @@ PROJECT_CLASSIFIERS = [
 
 
 setup(name='fsapi',
-      version='0.1.3',
+      version='0.2.0',
       description='Implementation of the Frontier Silicon API for Python',
       author='Krasimir Zhelev',
       author_email='krasimir.zhelev@gmail.com',
       keywords='fsapi frontier silicon',
       license="Apache License 2.0",
-      download_url='https://github.com/sd-personal/python-fsapi/archive/0.1.3.zip',
+      download_url='https://github.com/sd-personal/python-fsapi/archive/0.2.0.zip',
       url='https://github.com/sd-personal/python-fsapi.git',
       maintainer='sd-personal',
       zip_safe=True,

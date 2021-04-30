@@ -3,6 +3,8 @@ Support for interaction with Frontier Silicon Devices
 For example internet radios from: Medion, Hama, Auna, ...
 """
 import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 import logging
 import traceback
 from lxml import objectify
@@ -26,11 +28,17 @@ class FSAPI(object):
         self.fsapi_device_url = fsapi_device_url
         self.timeout = timeout
 
+        self.session = requests.Session()
+        retry = Retry(connect=3, backoff_factor=0.5)
+        adapter = HTTPAdapter(max_retries=retry)
+        self.session.mount('http://', adapter)
+        self.session.mount('https://', adapter)
+
         self.webfsapi = self.get_fsapi_endpoint()
         self.sid = self.create_session()
 
     def get_fsapi_endpoint(self):
-        endpoint = requests.get(self.fsapi_device_url, timeout = self.timeout)
+        endpoint = self.session.get(self.fsapi_device_url, timeout=self.timeout)
         doc = objectify.fromstring(endpoint.content)
         return doc.webfsapi.text
 
@@ -54,7 +62,7 @@ class FSAPI(object):
 
             params.update(**extra)
 
-            result = requests.get('%s/%s' % (self.webfsapi, path), params=params, timeout = self.timeout)
+            result = self.session.get('%s/%s' % (self.webfsapi, path), params=params, timeout=self.timeout)
             if result.status_code == 404:
                 return None
 
