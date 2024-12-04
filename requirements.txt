@@ -1,4 +1,4 @@
 requests>=2
 lxml>=3
 urllib3~=2.2.3
-setuptools~=65.6.3
+setuptools~=75.6
