@@ -4,7 +4,7 @@ For example internet radios from: Medion, Hama, Auna, ...
 """
 import requests
 from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+from urllib3.util import Retry
 import logging
 import traceback
 from lxml import objectify

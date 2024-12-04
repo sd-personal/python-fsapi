@@ -7,7 +7,7 @@ PACKAGES = find_packages(exclude=['tests', 'tests.*'])
 
 REQUIRES = [
     'requests>=2,<3'
-    'lxml>=3,<4'
+    'lxml>=5,<6'
 ]
 
 PROJECT_CLASSIFIERS = [
